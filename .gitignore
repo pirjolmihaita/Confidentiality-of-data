@@ -1,0 +1,18 @@
+# Ignora mediile virtuale
+venv_wsl/
+.venv/
+env/
+
+# Ignora cache-ul Python
+__pycache__/
+*.pyc
+
+# Ignora setarile IDE si fisiere sistem
+.vscode/
+.idea/
+.DS_Store
+
+# (Optional) Daca ai rezultate sau date foarte mari pe care nu vrei sa le urci
+# results/
+# data
+data/
