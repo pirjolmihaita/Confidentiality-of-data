@@ -1,12 +1,11 @@
 import sys
 import os
 
-# Add the project root (current directory) to sys.path so we can import 'src'
 sys.path.append(os.path.dirname(os.path.abspath(__file__)))
 
 try:
-    from src.experiments import run_experiments
-    
+    from src.runner import run_experiments
+
     if __name__ == "__main__":
         print("Starting Thesis Project Experiments...")
         run_experiments()

@@ -1,0 +1,43 @@
+import time
+from sklearn.metrics import (
+    accuracy_score, f1_score, precision_score, recall_score,
+    mean_squared_error, mean_absolute_error, r2_score
+)
+
+def run_dp(mm, m_type, eps, norm, n_features, classes, bounds,
+           X_train_proc, X_test_proc, y_train, y_test, task_type, suffix):
+    """
+    Rulează DP training + predict pe FULL features (X_train_proc / X_test_proc).
+    Returnează exact coloanele tale:
+      DP_Accuracy{suffix}, DP_F1{suffix}, DP_Precision{suffix}, DP_Recall{suffix},
+      DP_TrainTime{suffix}, DP_InfTime{suffix}
+    Sau la regression:
+      DP_MSE{suffix}, DP_MAE{suffix}, DP_R2{suffix}, DP_TrainTime{suffix}, DP_InfTime{suffix}
+    """
+    clf_dp = mm.get_dp_model(m_type, eps, norm, n_features=n_features, classes=classes, bounds=bounds)
+
+    t0 = time.time()
+    clf_dp.fit(X_train_proc, y_train)
+    train_time = time.time() - t0
+
+    t0 = time.time()
+    preds_dp = clf_dp.predict(X_test_proc)
+    inf_time = time.time() - t0
+
+    if task_type == "classification":
+        return clf_dp, {
+            f"DP_Accuracy{suffix}": accuracy_score(y_test, preds_dp),
+            f"DP_F1{suffix}": f1_score(y_test, preds_dp, average="weighted", zero_division=0),
+            f"DP_Precision{suffix}": precision_score(y_test, preds_dp, average="weighted", zero_division=0),
+            f"DP_Recall{suffix}": recall_score(y_test, preds_dp, average="weighted", zero_division=0),
+            f"DP_TrainTime{suffix}": train_time,
+            f"DP_InfTime{suffix}": inf_time,
+        }
+    else:
+        return clf_dp, {
+            f"DP_MSE{suffix}": mean_squared_error(y_test, preds_dp),
+            f"DP_MAE{suffix}": mean_absolute_error(y_test, preds_dp),
+            f"DP_R2{suffix}": r2_score(y_test, preds_dp),
+            f"DP_TrainTime{suffix}": train_time,
+            f"DP_InfTime{suffix}": inf_time,
+        }

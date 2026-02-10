@@ -2,6 +2,7 @@
 venv_wsl/
 .venv/
 env/
+results/
 
 # Ignora cache-ul Python
 __pycache__/
