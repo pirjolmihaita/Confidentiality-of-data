@@ -1,1 +1,2 @@
+*.csv filter=lfs diff=lfs merge=lfs -text
 data/raw/classification/creditcard.csv filter=lfs diff=lfs merge=lfs -text
