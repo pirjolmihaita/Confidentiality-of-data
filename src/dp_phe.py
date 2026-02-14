@@ -33,9 +33,9 @@ def run_dp_phe(mm, m_type, eps, norm, X_train_he, X_test_he, y_train, y_test, ta
     if task_type == "classification":
         return {
             f"PHE_Accuracy{suffix}": accuracy_score(y_true_sub, preds_he),
-            f"PHE_F1{suffix}": f1_score(y_true_sub, preds_he, average="weighted", zero_division=0),
-            f"PHE_Precision{suffix}": precision_score(y_true_sub, preds_he, average="weighted", zero_division=0),
-            f"PHE_Recall{suffix}": recall_score(y_true_sub, preds_he, average="weighted", zero_division=0),
+            f"PHE_F1{suffix}": f1_score(y_true_sub, preds_he, average="macro", zero_division=0),
+            f"PHE_Precision{suffix}": precision_score(y_true_sub, preds_he, average="macro", zero_division=0),
+            f"PHE_Recall{suffix}": recall_score(y_true_sub, preds_he, average="macro", zero_division=0),
             f"PHE_TrainTime{suffix}": phe_train_time,
             f"PHE_InfTime{suffix}": he_time,
         }

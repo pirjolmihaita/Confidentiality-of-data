@@ -10,7 +10,6 @@ from .privacy.k_anonymity import MondrianAnonymizer
 
 def run_k_anonymity_block(mm, preprocessor, X_train, X_test, y_train, y_test, task_type, models, ks, wide_results, ds_name):
     """
-    Copie 1:1 din codul tău:
       - concat train/test
       - mondrian anonymize
       - split back
@@ -27,8 +26,10 @@ def run_k_anonymity_block(mm, preprocessor, X_train, X_test, y_train, y_test, ta
         cat_cols = X_full.select_dtypes(include=["object", "category"]).columns.tolist()
 
         anonymizer = MondrianAnonymizer(k=k)
+        t_anon = time.time()
         anonymizer.fit(X_full, categorical_features=cat_cols)
         X_full_anon = anonymizer.transform(X_full)
+        anon_duration = time.time() - t_anon
 
         # 2) Split back
         X_train_anon = X_full_anon.iloc[:len(X_train)]
@@ -76,6 +77,7 @@ def run_k_anonymity_block(mm, preprocessor, X_train, X_test, y_train, y_test, ta
                     f"KAnon_Recall_K{k}": recall_score(y_test, preds, average="weighted", zero_division=0),
                     f"KAnon_InfTime_K{k}": inf_time,
                     f"KAnon_TrainTime_K{k}": train_time,
+                    f"KAnon_ProcessTime_K{k}": anon_duration,
                 })
             else:
                 wide_results[row_key].update({
@@ -84,4 +86,5 @@ def run_k_anonymity_block(mm, preprocessor, X_train, X_test, y_train, y_test, ta
                     f"KAnon_R2_K{k}": r2_score(y_test, preds),
                     f"KAnon_TrainTime_K{k}": train_time,
                     f"KAnon_InfTime_K{k}": inf_time,
+                    f"KAnon_ProcessTime_K{k}": anon_duration,
                 })

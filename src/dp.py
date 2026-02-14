@@ -7,12 +7,14 @@ from sklearn.metrics import (
 def run_dp(mm, m_type, eps, norm, n_features, classes, bounds,
            X_train_proc, X_test_proc, y_train, y_test, task_type, suffix):
     """
-    Rulează DP training + predict pe FULL features (X_train_proc / X_test_proc).
-    Returnează exact coloanele tale:
-      DP_Accuracy{suffix}, DP_F1{suffix}, DP_Precision{suffix}, DP_Recall{suffix},
-      DP_TrainTime{suffix}, DP_InfTime{suffix}
-    Sau la regression:
-      DP_MSE{suffix}, DP_MAE{suffix}, DP_R2{suffix}, DP_TrainTime{suffix}, DP_InfTime{suffix}
+    Performs Differential Privacy (DP) training and prediction on FULL features (X_train_proc / X_test_proc).
+    Returns a dictionary containing the following columns:
+      - For classification:
+          DP_Accuracy{suffix}, DP_F1{suffix}, DP_Precision{suffix}, DP_Recall{suffix},
+          DP_TrainTime{suffix}, DP_InfTime{suffix}
+      - For regression:
+          DP_MSE{suffix}, DP_MAE{suffix}, DP_R2{suffix}, 
+          DP_TrainTime{suffix}, DP_InfTime{suffix}
     """
     clf_dp = mm.get_dp_model(m_type, eps, norm, n_features=n_features, classes=classes, bounds=bounds)
 
